@@ -18,6 +18,14 @@ def get_cves():
         cves = json.load(file)
 
     severity = request.args.get("severity")
+    search = request.args.get("search")
+
+    if search:
+         cves = [
+        cve for cve in cves
+        if search.lower() in cve["description"].lower()
+        or search.lower() in cve["id"].lower()
+    ]
 
     if severity:
         cves = [
